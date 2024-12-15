@@ -3,10 +3,29 @@ from selenium.webdriver.chrome.service import Service
 import time
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from bs4 import BeautifulSoup
+
 
 class MoveDriver():
+    
     def __init__(self):
+        self.file_name = 'messagge_popup.txt'
         pass
+    def save_popup_content_message(self, file_name, data):
+        """
+        Guarda información en un archivo de texto.
+
+        Args:
+            nombre_archivo (str): El nombre del archivo donde se guardará la información.
+            informacion (str): La información que se desea guardar.
+        """
+        try:
+            with open(file_name, 'a', encoding='utf-8') as archivo:  # Modo 'a' para agregar al archivo
+                archivo.write(data + '\n')
+            print(f"Información guardada en {file_name}")
+        except Exception as e:
+            print(f"Error al guardar la información: {e}")
+
 
     def login_account(self, driver, user, passwd):
         login_container = WebDriverWait(driver, 20).until(
@@ -44,14 +63,14 @@ class MoveDriver():
             text_in = a.text
             if 'AJOUTER UNE RÉSERVATION' in text_in:
                 a.click()
-        time.sleep(1)
+        time.sleep(2)
         reservation_sport_select = WebDriverWait(driver, 20).until(
             EC.visibility_of_element_located((By.ID, 'popuptest'))
         )
-        
+
         sports = reservation_sport_select.find_elements(By.CLASS_NAME, 'contenant')
         sports[-1].click()
-        time.sleep(1)
+        time.sleep(2)
         reservation_court_table = WebDriverWait(driver, 20).until(
             EC.visibility_of_element_located((By.CLASS_NAME, 'popup-content'))
         )
@@ -84,9 +103,14 @@ class MoveDriver():
         select.select_by_visible_text("???, Stephane")
         button_complete = dropdown.find_elements(By.TAG_NAME, 'button')
         button_complete[2].click()
-        
+        time.sleep(1)
+        html = driver.page_source
+        soup = BeautifulSoup(html, 'html.parser')
+        data = soup.find('div', {'class':'popup-content'}).text
+        self.save_popup_content_message(self.file_name, data)
 
     def reservation_hours(self, driver, hour_text):
+        time.sleep(1)
         driver.refresh()
         menu_container = WebDriverWait(driver, 20).until(
             EC.visibility_of_element_located((By.ID, 'menugauche'))

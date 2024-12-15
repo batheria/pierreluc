@@ -70,10 +70,9 @@ def main():
                 # Buscar el elemento <a> con el texto del horario
                 instance.reservation_hours(driver, hour_text)
                 print(f'Booking: {hour_text}')
-                instance.select_parteinaire(driver)
         else:
             print('There are no two consecutive 1-hour slots available.')
 
 if __name__ == "__main__":
-    wait_until_7_am()
+    '''wait_until_7_am()'''
     main()
