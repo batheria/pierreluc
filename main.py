@@ -74,5 +74,5 @@ def main():
             print('There are no two consecutive 1-hour slots available.')
 
 if __name__ == "__main__":
-    '''wait_until_7_am()'''
+    wait_until_7_am()
     main()
