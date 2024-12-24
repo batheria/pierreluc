@@ -76,8 +76,6 @@ def main():
 
 if __name__ == "__main__":
     wait_until_7_am()
-<<<<<<< HEAD
     main()
-=======
-    main()
->>>>>>> 6ac447b0934fe09515eb6a19fc8f9c2e32f10c37
+
+
