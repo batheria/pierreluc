@@ -54,6 +54,7 @@ def main():
     driver.get(url)
     instance.login_account(driver, user, passwd)
     hour_texts = instance.reservation_court(driver)
+    
     if len(hour_texts) > 1:
         for i in range(len(hour_texts) - 1):
             current_hour = hour_texts[i]
@@ -74,5 +75,5 @@ def main():
             print('There are no two consecutive 1-hour slots available.')
 
 if __name__ == "__main__":
-    '''wait_until_7_am()'''
+    wait_until_7_am()
     main()

@@ -45,6 +45,7 @@ class MoveDriver():
         button_connect.click()
 
     def reservation_court(self, driver):
+        excluir_horarios = ["07:00 AM", "08:00 AM", "09:00 AM"] 
         menu_container = WebDriverWait(driver, 20).until(
             EC.visibility_of_element_located((By.ID, 'menugauche'))
         )
@@ -87,8 +88,11 @@ class MoveDriver():
         hours = hour_reservation.find_elements(By.TAG_NAME, 'a')
 
         hour_texts = [hour.text for hour in hours]
-        print("Horarios disponibles:", hour_texts)
-        return hour_texts
+
+        hour_texts_filtered = [hour for hour in hour_texts if hour not in excluir_horarios]
+
+        print("Horarios disponibles:", hour_texts_filtered)
+        return hour_texts_filtered
     
     def select_parteinaire(self, driver):
         dropdown = WebDriverWait(driver, 20).until(
