@@ -48,7 +48,7 @@ def wait_until_7_am():
 
 def main():
     chrome_options = Options()
-    """chrome_options.add_argument("--headless")"""
+    chrome_options.add_argument("--headless")
     driver = webdriver.Chrome(options=chrome_options)
     driver.maximize_window()
     driver.get(url)
@@ -70,14 +70,10 @@ def main():
             for hour_text in found_hours:
                 # Buscar el elemento <a> con el texto del horario
                 instance.reservation_hours(driver, hour_text)
-                print(f'Booking: {hour_text}')
+                
         else:
             print('There are no two consecutive 1-hour slots available.')
 
 if __name__ == "__main__":
     wait_until_7_am()
-<<<<<<< HEAD
     main()
-=======
-    main()
->>>>>>> 6ac447b0934fe09515eb6a19fc8f9c2e32f10c37

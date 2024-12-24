@@ -21,7 +21,7 @@ class MoveDriver():
         """
         try:
             with open(file_name, 'a', encoding='utf-8') as archivo:  # Modo 'a' para agregar al archivo
-                archivo.write(data + '\n')
+                archivo.write(data, '\n\n\n')
             print(f"Información guardada en {file_name}")
         except Exception as e:
             print(f"Error al guardar la información: {e}")
@@ -45,7 +45,8 @@ class MoveDriver():
         button_connect.click()
 
     def reservation_court(self, driver):
-        excluir_horarios = ["07:00 AM", "08:00 AM", "09:00 AM"] 
+        excluir_horarios = ["07:00 à 08:00 (01:00)", "08:00 à 09:00 (01:00)"]
+        hours_filtered = []
         menu_container = WebDriverWait(driver, 20).until(
             EC.visibility_of_element_located((By.ID, 'menugauche'))
         )
@@ -89,10 +90,13 @@ class MoveDriver():
 
         hour_texts = [hour.text for hour in hours]
 
-        hour_texts_filtered = [hour for hour in hour_texts if hour not in excluir_horarios]
+        for hour in hour_texts:
+            hour_filtered =  hour.split(' - ')
+            if not hour_filtered[0] in excluir_horarios:
+                hours_filtered.append(hour)
 
-        print("Horarios disponibles:", hour_texts_filtered)
-        return hour_texts_filtered
+        print("Horarios disponibles:", hours_filtered)
+        return hours_filtered
     
     def select_parteinaire(self, driver):
         dropdown = WebDriverWait(driver, 20).until(
@@ -114,6 +118,7 @@ class MoveDriver():
         self.save_popup_content_message(self.file_name, data)
 
     def reservation_hours(self, driver, hour_text):
+        print(f'Booking: {hour_text}')
         time.sleep(1)
         driver.refresh()
         menu_container = WebDriverWait(driver, 20).until(
